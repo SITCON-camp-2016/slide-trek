@@ -1,0 +1,22 @@
+{
+  "name": "slide-trek",
+  "version": "0.0.1",
+  "description": "SITCON Camp 2016 Hackathon Project developed by Team #7",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/katrina376/slide-trek.git"
+  },
+  "keywords": [
+    "slide"
+  ],
+  "author": "SITCON Camp 2016 Team #7",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/katrina376/slide-trek/issues"
+  },
+  "homepage": "https://github.com/katrina376/slide-trek#readme"
+}
