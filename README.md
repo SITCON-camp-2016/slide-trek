@@ -13,6 +13,13 @@ Examples of reveal.js is used in this repo.
 4. Click the password button and type the password into the blank.
 5. Ready to go!
 
+## Dependencies
+* cheerio : ^0.20.0
+* ejs : ^2.5.1
+* express : ^4.14.0
+* request : ^2.74.0
+* socket.io : ^1.4.8
+
 ## Requirements
 * node.js
 * npm
