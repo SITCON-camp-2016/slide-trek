@@ -1,0 +1,82 @@
+<script src="/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script>
+  var socket = io();
+  var current_state = Reveal.getState();
+  var is_show = false;
+  var is_audience = true;
+  var is_onpage = false;
+
+  Reveal.addEventListener('slidechanged', function(ev) {
+    socket.emit('pagechange', {
+      "state"   : Reveal.getState(),
+      "passwd"  : $("#passwd").val(),
+    });
+
+    if ((current_state.indexh == ev.indexh) && (current_state.indexv == ev.indexv) && is_audience) {
+      $("#mouse").attr("style","display: block");
+    } else {
+      $("#mouse").attr("style","display: none");
+    }
+  });
+
+  socket.on('pagechange', function (state) {
+    current_state = state;
+  });
+
+  function sync_pos () {
+    console.log(current_state);
+    Reveal.setState(current_state);
+  }
+
+  function call_input (){
+    if (is_show) {
+      $("#input_modal").attr("style","display: none");
+      is_show = false;
+    } else {
+      $("#input_modal").attr("style","display: block");
+      is_show = true;
+    }
+    console.log("call_input");
+  }
+
+  function save_passwd (){
+    $("#input_modal").attr("style","display: none");
+    console.log("save_passwd");
+    socket.emit("passwd",$("#passwd").val());
+  }
+
+  socket.on("is_audience",function(data){
+    if (data == false)
+      is_audience = false;
+    else
+      is_audience = true;
+  });
+
+  $(document).mousemove(function(e){
+    var offset = $("div.slides:eq(0)").offset();
+    var divPos = {
+      left : (e.pageX - offset.left) / $("div.slides:eq(0)").width(),
+      top  : (e.pageY - offset.top) / $("div.slides:eq(0)").height(),
+    }
+    socket.emit('mousemove', {
+      "mousePos": divPos,
+      "passwd"  : $("#passwd").val(),
+    });
+  });
+
+  socket.on('is_speaker', function(data) {
+    is_speaker = data;
+  });
+
+  socket.on('mousemove', function(data) {
+    console.log(data);
+    var offset = $("div.slides:eq(0)").offset();
+    var y = offset.top + data.top * $("div.slides:eq(0)").height();
+    var x = offset.left + data.left * $("div.slides:eq(0)").width();
+    $("#mouse").offset({
+      top: y,
+      left: x
+    });
+  });
+</script>

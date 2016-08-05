@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<head>
+<%- slide_head %>
+<%- include('../static/st-style') %>
+</head>
+<body>
+<header>
+  <h1>Slide Trek</h1>
+  <div id="st-panel">
+    <button id="sync_pos" type="button" onclick="sync_pos()">
+      <i class="fa fa-home"></i> <span> &nbsp;回到講者頁面</span>
+    </button>
+    <button id="call_input" type="button" onclick="call_input()">
+      <i class="fa fa-key"></i> <span> &nbsp;講者密碼</span>
+    </button>
+    <div id="input_modal">
+      <input name="passwd" type="password" id="passwd"/>
+      <button id="save_passwd" type="button" onclick="save_passwd()">Save</button>
+    </div>
+  </div>
+</header>
+<div id="mouse"></div>
+<%- slide_body %>
+<%- include('../static/st-scripts') %>
+</body>
