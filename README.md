@@ -1,6 +1,7 @@
 # SlideTrek
 An add-on to [reveal.js](https://github.com/hakimel/reveal.js/).
-Examples of reveal.js is used in this repo.
+Examples of reveal.js is used in this repo.  
+Demo [link](http://slides.com/lydiacheng/slide-trek#/).
 
 ## Features
 * Sync the page number between the speaker and audience. Audience can switch to the speaker's page number by clicking the button.
