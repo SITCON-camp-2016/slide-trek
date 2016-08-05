@@ -1,4 +1,5 @@
 var passwd = "WeLoveNTUOSC!"
+var port = 5000;
 
 var express = require("express");
 var app = express();
@@ -8,7 +9,7 @@ var io = require("socket.io")(server);
 var cheerio = require('cheerio');
 var fs = require('fs');
 
-server.listen(5000);
+server.listen(port);
 
 app.set("view engine", "ejs");
 
