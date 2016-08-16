@@ -18,10 +18,24 @@
     } else {
       $("#mouse").attr("style","display: none");
     }
+
+    socket.on('pagechange', function (state) {
+      current_state = state;
+      if ((current_state.indexh == ev.indexh) && (current_state.indexv == ev.indexv) && is_audience) {
+        $("#mouse").attr("style","display: block");
+      } else {
+        $("#mouse").attr("style","display: none");
+      }
+    });
+    
   });
 
   socket.on('pagechange', function (state) {
     current_state = state;
+    if($('#checkbox').prop('checked')){
+      console.log(current_state);
+      Reveal.setState(current_state);
+    }
   });
 
   function sync_pos () {
@@ -56,8 +70,8 @@
   $(document).mousemove(function(e){
     var offset = $("div.slides:eq(0)").offset();
     var divPos = {
-      left : (e.pageX - offset.left) / $("div.slides:eq(0)").width(),
-      top  : (e.pageY - offset.top) / $("div.slides:eq(0)").height(),
+      left : (e.pageX - offset.left) / Reveal.getScale(),
+      top  : (e.pageY - offset.top) / Reveal.getScale(),
     }
     socket.emit('mousemove', {
       "mousePos": divPos,
@@ -70,13 +84,13 @@
   });
 
   socket.on('mousemove', function(data) {
-    console.log(data);
+    
     var offset = $("div.slides:eq(0)").offset();
-    var y = offset.top + data.top * $("div.slides:eq(0)").height();
-    var x = offset.left + data.left * $("div.slides:eq(0)").width();
-    $("#mouse").offset({
-      top: y,
-      left: x
-    });
+    var y = offset.top + data.top * Reveal.getScale();
+    var x = offset.left + data.left * Reveal.getScale();
+    var s = Reveal.getScale();
+    $("#mouse").css('left', x +"px");
+    $("#mouse").css('top', y +"px");
+    $("#mouse").css('transform', "translate(-50%, -50%)" + "scale(" + s +")");
   });
 </script>

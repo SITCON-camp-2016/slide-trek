@@ -1,30 +1,32 @@
 <script src="https://use.fontawesome.com/86b9bf4a5e.js"></script>
 <style>
-@import url("http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,800,800italic");*/
+@import url("https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:300");
 header {
 	background: #000000;
 	color: #FFF;
-	font-family: sans-serif;
+	font-family: 'Alegreya Sans SC', sans-serif;
 	margin: 0;
-	padding: 0.5em 1em;
+	padding: 0 0.5em;
 	position: fixed;
 	top: 0;
 	width: 100%;
+	box-shadow: 1px 1px 15px #000000;
 	z-index: 5566;
 }
 
 h1 {
 	color: #FFF;
-	font-size: 1.2em;
-	padding: 0.4em 1em;
+	font-size: 1.8em;
+	padding: 0em 0em;
 	top: 0;
 	left: 0;
+	margin: 0.5em 0.7em;
 }
 
 #st-panel {
 	position: fixed;
-	margin: 0;
-	padding: 0.5em 1em;
+	margin: 0 0 0 10em;
+	padding: 0.2em 0em;
 	top: 0;
 	right: 1em;
 	z-index: 5566;
@@ -35,10 +37,34 @@ h1 {
 	background-color: #e4e4e4;
 	border-radius: 5px;
 	font-size: 1.2em;
+	font-family: Microsoft JhengHei;
 	padding: 0.25em 0.5em;
-	margin: 0.5em;
+	margin: 0.5em 0em 0.15em 0.5em;
 	box-shadow: 2px 2px 10px;
 }
+
+	@media screen and (max-width: 486px) {
+		header {
+			padding: 1.55em 0.5em;
+		}
+		#st-panel>button {
+			float: right;
+		}
+	}
+
+	@media screen and (max-width: 356px) {
+		header {
+			padding: 0em 0.5em;
+		}
+		#st-panel {
+			margin: 0 0 0 20em;
+		}
+		#st-panel>button {
+			padding: 0.3em 0.3em;
+			font-size: 1.05em;
+			margin: 0.5em 0em 0.15em 0em;
+		}
+	}
 
 #input_modal {
 	background: rgba(255,255,255,0.3);
@@ -56,9 +82,12 @@ h1 {
 #mouse {
 	display: none;
 	position: absolute;
+	transform: translate(-50%, -50%);
 	width: 2em;
 	height: 2em;
 	background: rgba(255,255,0,0.5);
 	border-radius: 50%;
+	z-index: 5567;
 }
+
 </style>

@@ -2,13 +2,14 @@
 <head>
 <%- slide_head %>
 <%- include('../static/st-style') %>
+<link href=https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:300 rel="stylesheet">
 </head>
 <body>
 <header>
   <h1>Slide Trek</h1>
   <div id="st-panel">
     <button id="sync_pos" type="button" onclick="sync_pos()">
-      <i class="fa fa-home"></i> <span> &nbsp;回到講者頁面</span>
+      <input type="checkbox" id="checkbox"><i class="fa fa-home"></i> <span> &nbsp;回到講者頁面</span>
     </button>
     <button id="call_input" type="button" onclick="call_input()">
       <i class="fa fa-key"></i> <span> &nbsp;講者密碼</span>
