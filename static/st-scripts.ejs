@@ -4,16 +4,16 @@
   var socket = io();
   var current_state = Reveal.getState();
   var is_show = false;
-  var is_audience = true;
+  var is_audience = false;
   var is_onpage = false;
 
-  Reveal.addEventListener('slidechanged', function(ev) {
+  var syncstate = function(ev) {
     socket.emit('pagechange', {
       "state"   : Reveal.getState(),
       "passwd"  : $("#passwd").val(),
     });
 
-    if ((current_state.indexh == ev.indexh) && (current_state.indexv == ev.indexv) && is_audience) {
+    if ((current_state.indexh == Reveal.getState().indexh) && (current_state.indexv == Reveal.getState().indexv) && is_audience) {
       $("#mouse").attr("style","display: block");
     } else {
       $("#mouse").attr("style","display: none");
@@ -21,22 +21,23 @@
 
     socket.on('pagechange', function (state) {
       current_state = state;
-      if ((current_state.indexh == ev.indexh) && (current_state.indexv == ev.indexv) && is_audience) {
+      if($('#checkbox').prop('checked')){
+      console.log(current_state);
+      Reveal.setState(current_state);
+      }
+      if ((current_state.indexh == Reveal.getState().indexh) && (current_state.indexv == Reveal.getState().indexv) && is_audience) {
         $("#mouse").attr("style","display: block");
       } else {
         $("#mouse").attr("style","display: none");
       }
     });
     
-  });
+  };
 
-  socket.on('pagechange', function (state) {
-    current_state = state;
-    if($('#checkbox').prop('checked')){
-      console.log(current_state);
-      Reveal.setState(current_state);
-    }
-  });
+  Reveal.addEventListener('slidechanged', syncstate);
+  Reveal.addEventListener('fragmentshown', syncstate);
+  Reveal.addEventListener('fragmenthidden', syncstate);
+
 
   function sync_pos () {
     console.log(current_state);
@@ -58,6 +59,10 @@
     $("#input_modal").attr("style","display: none");
     console.log("save_passwd");
     socket.emit("passwd",$("#passwd").val());
+    socket.emit('pagechange', {
+      "state"   : Reveal.getState(),
+      "passwd"  : $("#passwd").val(),
+    });
   }
 
   socket.on("is_audience",function(data){
