@@ -7,6 +7,27 @@
   var is_audience = false;
   var is_onpage = false;
 
+  window.onload = function(){
+    socket.emit('getspeakerpage',$("#passwd").val());
+    console.log('get1');
+  };
+
+  window.onload = function(){
+    var s = Reveal.getScale();
+    if(s > 1){
+      $(".slides").css('zoom', "");
+      $(".slides").css('transform', "scale(" + s +")");
+    };
+  };
+
+  $('.slides').on('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(){
+    var s = Reveal.getScale();
+    if(s > 1){
+      $(".slides").css('zoom', "");
+      $(".slides").css('transform', "scale(" + s +")");
+    };
+  });
+
   var syncstate = function(ev) {
     socket.emit('pagechange', {
       "state"   : Reveal.getState(),
@@ -18,20 +39,6 @@
     } else {
       $("#mouse").attr("style","display: none");
     }
-
-    socket.on('pagechange', function (state) {
-      current_state = state;
-      if($('#checkbox').prop('checked')){
-      console.log(current_state);
-      Reveal.setState(current_state);
-      }
-      if ((current_state.indexh == Reveal.getState().indexh) && (current_state.indexv == Reveal.getState().indexv) && is_audience) {
-        $("#mouse").attr("style","display: block");
-      } else {
-        $("#mouse").attr("style","display: none");
-      }
-    });
-    
   };
 
   Reveal.addEventListener('slidechanged', syncstate);
@@ -65,11 +72,47 @@
     });
   }
 
+  socket.on("getspeakerpage", function(state){
+    current_state = state;
+    is_audience = true;
+    console.log('get');
+    if ((current_state.indexh == Reveal.getState().indexh) && (current_state.indexv == Reveal.getState().indexv) && is_audience) {
+        $("#mouse").attr("style","display: block");
+      } else {
+        $("#mouse").attr("style","display: none");
+      }
+  });
+
+  socket.on('pagechange', function (state) {
+      current_state = state;
+      if($('#checkbox').prop('checked')){
+      console.log(current_state);
+      Reveal.setState(current_state);
+      }
+      if ((current_state.indexh == Reveal.getState().indexh) && (current_state.indexv == Reveal.getState().indexv) && is_audience) {
+        $("#mouse").attr("style","display: block");
+      } else {
+        $("#mouse").attr("style","display: none");
+      }
+    });
+
+  socket.on("is_speaker",function(data){
+    if (data == true) {
+      alert('Correct Password!');
+      $("#sync_pos").attr("style","display: none");
+    } else {
+      alert('Invalid Password!');
+      $("#sync_pos").attr("style","display: inline-block");
+    }
+  });
+
   socket.on("is_audience",function(data){
-    if (data == false)
+    if (data == false) {
       is_audience = false;
-    else
+    } else {
       is_audience = true;
+      alert('Speaker Connected!');
+    }
   });
 
   $(document).mousemove(function(e){
@@ -84,9 +127,9 @@
     });
   });
 
-  socket.on('is_speaker', function(data) {
+  /*socket.on('is_speaker', function(data) {
     is_speaker = data;
-  });
+  });*/
 
   socket.on('mousemove', function(data) {
     

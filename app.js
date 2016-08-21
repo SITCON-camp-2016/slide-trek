@@ -1,4 +1,5 @@
 var passwd = "WeLoveNTUOSC!"
+var speakerpage;
 var port = 5000;
 
 var express = require("express");
@@ -43,8 +44,10 @@ io.on('connection', function(socket){
   /* Speaker Events */
   socket.on('passwd',function(data){
     if (passwd != data) {
-      return;
+      socket.emit('is_speaker', false);
     } else {
+      socket.emit('is_speaker', true);
+      socket.emit('is_audience', false);
       socket.broadcast.emit('is_audience', true);
     }
   });
@@ -53,8 +56,17 @@ io.on('connection', function(socket){
     if (passwd != data.passwd) {
       return;
     } else {
+      speakerpage = data.state;
       socket.broadcast.emit('pagechange', data.state);
     }
+  });
+
+  socket.on('getspeakerpage', function(data){
+  	if (passwd == data) {
+  	  return;
+  	} else {
+	  socket.emit('getspeakerpage', speakerpage);
+  	}
   });
 
   socket.on('mousemove', function(data) {
