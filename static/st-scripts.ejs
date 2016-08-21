@@ -9,10 +9,6 @@
 
   window.onload = function(){
     socket.emit('getspeakerpage',$("#passwd").val());
-    console.log('get1');
-  };
-
-  window.onload = function(){
     var s = Reveal.getScale();
     if(s > 1){
       $(".slides").css('zoom', "");
@@ -75,7 +71,6 @@
   socket.on("getspeakerpage", function(state){
     current_state = state;
     is_audience = true;
-    console.log('get');
     if ((current_state.indexh == Reveal.getState().indexh) && (current_state.indexv == Reveal.getState().indexv) && is_audience) {
         $("#mouse").attr("style","display: block");
       } else {
