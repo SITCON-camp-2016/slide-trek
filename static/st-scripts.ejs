@@ -16,6 +16,14 @@
     };
   };
 
+  $( window ).resize(function() {
+    var s = Reveal.getScale();
+    if(s > 1){
+      $(".slides").css('zoom', "");
+      $(".slides").css('transform', "scale(" + s +")");
+    };
+  });
+
   $('.slides').on('webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend', function(){
     var s = Reveal.getScale();
     if(s > 1){
@@ -71,6 +79,7 @@
   socket.on("getspeakerpage", function(state){
     current_state = state;
     is_audience = true;
+    console.log('getspeakerpage');
     if ((current_state.indexh == Reveal.getState().indexh) && (current_state.indexv == Reveal.getState().indexv) && is_audience) {
         $("#mouse").attr("style","display: block");
       } else {
